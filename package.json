@@ -17,6 +17,7 @@
     "url": "https://github.com/cozy-labs/cozy-light-docker.git"
   },
   "dependencies": {
-    "dockerode": "^2.0.3"
+    "dockerode": "^2.0.3",
+    "request-json-light": "^0.5.2"
   }
 }
