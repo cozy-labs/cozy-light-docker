@@ -56,12 +56,12 @@ var installDockerApp = function(app) {
   });
 };
 
-modude.exports.configure = function(options, config, program) {
+module.exports.configure = function(options, config, program) {
   config = config;
   config_path = options.config_path;
 
   program
     .command('install-docker <app>')
     .description('Add Docker-based app to current Cozy Light')
-    .action(actions.installDockerApp);
+    .action(installDockerApp);
 };
