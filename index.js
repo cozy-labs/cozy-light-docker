@@ -20,7 +20,7 @@ var addContainer = function (app, manifest) {
     containerId: manifest.containerId
   };
   fs.writeFileSync(config_path, JSON.stringify(config, null, 2));
-},
+};
 
 
 var installDockerApp = function(app) {
