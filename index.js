@@ -1,4 +1,4 @@
-var request = require('request-json-light');
+var request = require('request-json');
 var Docker = require('dockerode');
 
 config = null;
