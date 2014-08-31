@@ -56,6 +56,12 @@ var installDockerApp = function(app) {
   });
 };
 
+
+var uninstallDockerApp = function(app) {
+  console.log('Non implemented yet cannot uninstall ' + app + '.');
+};
+
+
 module.exports.configure = function(options, config, program) {
   config = config;
   config_path = options.config_path;
@@ -64,4 +70,9 @@ module.exports.configure = function(options, config, program) {
     .command('install-docker <app>')
     .description('Add Docker-based app to current Cozy Light')
     .action(installDockerApp);
+
+  program
+    .command('uninstall-docker <app>')
+    .description('Remove Docker-based app from current Cozy Light')
+    .action(uninstallDockerApp);
 };
