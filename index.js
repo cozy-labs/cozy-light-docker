@@ -68,8 +68,8 @@ module.exports.getTemplate = function() {
 
 
 module.exports.configure = function(options, config, program) {
-  config = config;
-  config_path = options.config_path;
+  module.exports.config = config;
+  module.exports.configPath = options.config_path;
 
   program
     .command('install-docker <app>')
