@@ -62,6 +62,11 @@ var uninstallDockerApp = function(app) {
 };
 
 
+module.exports.getTemplate = function() {
+  return '<p>docker</p>'
+};
+
+
 module.exports.configure = function(options, config, program) {
   config = config;
   config_path = options.config_path;
