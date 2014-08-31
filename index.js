@@ -1,15 +1,15 @@
 var request = require('request-json');
 var Docker = require('dockerode');
 
-config = null;
-config_path = null;
+module.exports.config = null;
+module.exports.configPath = null;
 
 
 var addContainer = function (app, manifest) {
   if(config.containers === undefined) {
     config.containers = {};
   }
-  config.containers[app] = {
+  module.exports.config.containers[app] = {
     name: manifest.name,
     displayName: manifest.displayName,
     version: manifest.version,
@@ -19,7 +19,8 @@ var addContainer = function (app, manifest) {
     container: manifest.container,
     containerId: manifest.containerId
   };
-  fs.writeFileSync(config_path, JSON.stringify(config, null, 2));
+  fs.writeFileSync(module.exports.configPath,
+                   JSON.stringify(module.exports.config, null, 2));
 };
 
 
