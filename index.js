@@ -63,6 +63,25 @@ var uninstallDockerApp = function(app) {
 };
 
 
+module.exports.configureAppServer = function(app, config, routes, callback) {
+  var Docker = require('dockerode');
+  var docker = new Docker({socketPath: '/var/run/docker.sock'});
+  port = config.port + 1000;
+  async.eachSeries(Object.keys(config.containers), function (key, cb) {
+    var manifest = config.containers[key];
+    var container = docker.getContainer(manifest.name);
+    port++;
+    container.defaultOptions.start.PortBindings = {}
+    container.defaultOptions.start.PortBindings[manifest.defaultPort + "/tcp"] = [{ "HostPort": "" + port }]
+    container.start(function (err, data) {
+      console.log(err);
+      routes[manifest.name] = port;
+      LOGGER.info(manifest.displayName + ' started on port ' + port + '. Enjoy!');
+      cb();
+    });
+  }, callback);
+};
+
 module.exports.getTemplate = function() {
   return '<p>docker</p>'
 };
