@@ -1,4 +1,5 @@
 var fs = require('fs');
+var async = require('async');
 var request = require('request-json-light');
 var Docker = require('dockerode');
 
