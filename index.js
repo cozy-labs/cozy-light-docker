@@ -71,7 +71,21 @@ var installDockerApp = function(app) {
 
 
 var uninstallDockerApp = function(app) {
-  console.log('Non implemented yet cannot uninstall ' + app + '.');
+  var dockerApp = module.exports.config.apps[app];
+
+  if (dockerApp.type === 'docker') {
+    var container = docker.getContainer(dockerApp.name);
+    container.stop(function (err, data) {
+      if (err) {
+        console.log(err);
+        LOGGER.error('Application ' + app + ' uninstallation failed.');
+      }
+      delete module.exports.config.apps[app];
+      fs.writeFileSync(module.exports.configPath,
+                       JSON.stringify(module.exports.config, null, 2));
+      LOGGER.info('Application ' + app + ' uninstallation succeeded.');
+    });
+  }
 };
 
 
