@@ -5,11 +5,13 @@ module.exports.config = null;
 module.exports.configPath = null;
 
 
+// Containers could not be considered as app since they require specific
+// startup.
 var addContainer = function (app, manifest) {
   if(config.containers === undefined) {
     config.containers = {};
   }
-  module.exports.config.containers[app] = {
+  module.exports.config.apps[app] = {
     name: manifest.name,
     displayName: manifest.displayName,
     version: manifest.version,
@@ -22,6 +24,7 @@ var addContainer = function (app, manifest) {
   fs.writeFileSync(module.exports.configPath,
                    JSON.stringify(module.exports.config, null, 2));
 };
+
 
 
 var installDockerApp = function(app) {
@@ -65,25 +68,34 @@ var uninstallDockerApp = function(app) {
 
 module.exports.configureAppServer = function(app, config, routes, callback) {
   var Docker = require('dockerode');
-  var docker = new Docker({socketPath: '/var/run/docker.sock'});
+  var docker = new Docker({ socketPath: '/var/run/docker.sock' });
+
   port = config.port + 1000;
-  async.eachSeries(Object.keys(config.containers), function (key, cb) {
-    var manifest = config.containers[key];
-    var container = docker.getContainer(manifest.name);
-    port++;
-    container.defaultOptions.start.PortBindings = {}
-    container.defaultOptions.start.PortBindings[manifest.defaultPort + "/tcp"] = [{ "HostPort": "" + port }]
-    container.start(function (err, data) {
-      console.log(err);
-      routes[manifest.name] = port;
-      LOGGER.info(manifest.displayName + ' started on port ' + port + '. Enjoy!');
+
+  async.eachSeries(Object.keys(config.apps), function (key, cb) {
+    var dockerApp = config.apps[key];
+
+    if (dockerApp.type === 'docker') {
+      var container = docker.getContainer(dockerApp.name);
+      port++;
+      container.defaultOptions.start.PortBindings = {}
+      container.defaultOptions.start.PortBindings[dockerApp.defaultPort + "/tcp"] = [{ "HostPort": "" + port }]
+      container.start(function (err, data) {
+        if(err) { console.log(err); };
+        routes[dockerApp.name] = port;
+        LOGGER.info(dockerApp.displayName + ' started on port ' + port + '. Enjoy!');
+        cb();
+      });
+    } else {
       cb();
-    });
+    };
+
   }, callback);
 };
 
+
 module.exports.getTemplate = function() {
-  return '<p>docker</p>'
+  return '';
 };
 
 
