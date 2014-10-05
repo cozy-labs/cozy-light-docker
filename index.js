@@ -42,6 +42,10 @@ var installDockerApp = function(app) {
     } else {
       var docker = new Docker({socketPath: '/var/run/docker.sock'});
       docker.pull(manifest.container, function(err, data) {
+        if (err) {
+          LOGGER.error('An error occured while installing the Docker app.');
+          return console.log(err);
+        }
         data.on('data', function(chunk) {
           console.log(chunk.toString());
         });
