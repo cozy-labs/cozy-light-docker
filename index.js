@@ -10,8 +10,8 @@ module.exports.configPath = null;
 // Containers could not be considered as app since they require specific
 // startup.
 var addContainer = function (app, manifest) {
-  if(config.containers === undefined) {
-    config.containers = {};
+  if(module.exports.config.containers === undefined) {
+    module.exports.config.containers = {};
   }
   module.exports.config.apps[app] = {
     name: manifest.name,
