@@ -4,6 +4,7 @@ var request = require('request-json-light');
 var Docker = require('dockerode');
 
 var LOGGER = require('printit')({ prefix: 'Docker Plugin'});
+var docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
 module.exports.config = null;
 module.exports.configPath = null;
@@ -75,9 +76,6 @@ var uninstallDockerApp = function(app) {
 
 
 module.exports.configureAppServer = function(app, config, routes, callback) {
-  var Docker = require('dockerode');
-  var docker = new Docker({ socketPath: '/var/run/docker.sock' });
-
   port = config.appPort + 1000;
 
   async.eachSeries(Object.keys(config.apps), function (key, cb) {
