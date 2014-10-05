@@ -102,12 +102,30 @@ module.exports.configureAppServer = function(app, config, routes, callback) {
 };
 
 
-module.exports.getTemplate = function() {
+module.exports.getTemplate = function () {
   return '';
 };
 
 
-module.exports.configure = function(options, config, program) {
+module.exports.onExit = function (options, config, callback) {
+  async.eachSeries(Object.keys(config.apps), function (key, cb) {
+    var dockerApp = config.apps[key];
+
+    if (dockerApp.type === 'docker') {
+      var container = docker.getContainer(dockerApp.name);
+      container.stop(function (err, data) {
+        if(err) { console.log(err); };
+        LOGGER.info('Docker app ' + dockerApp.name + ' stopped.');
+        cb();
+      });
+    } else {
+      cb();
+    };
+  }, callback);
+};
+
+
+module.exports.configure = function (options, config, program) {
   module.exports.config = config;
   module.exports.configPath = options.config_path;
 
