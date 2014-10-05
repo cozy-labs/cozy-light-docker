@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "dockerode": "^2.0.3",
-    "request-json-light": "^0.5.2"
+    "request-json-light": "^0.5.6"
   }
 }
