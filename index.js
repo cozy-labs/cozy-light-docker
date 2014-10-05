@@ -1,6 +1,8 @@
 var request = require('request-json-light');
 var Docker = require('dockerode');
 
+var LOGGER = require('printit')({ prefix: 'Docker Plugin'});
+
 module.exports.config = null;
 module.exports.configPath = null;
 
