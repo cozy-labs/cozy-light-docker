@@ -78,7 +78,7 @@ module.exports.configureAppServer = function(app, config, routes, callback) {
   var Docker = require('dockerode');
   var docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
-  port = config.port + 1000;
+  port = config.appPort + 1000;
 
   async.eachSeries(Object.keys(config.apps), function (key, cb) {
     var dockerApp = config.apps[key];
