@@ -10,7 +10,7 @@ module.exports.config = null;
 module.exports.configPath = null;
 
 
-Var addContainer = function (app, manifest) {
+var addContainer = function (app, manifest) {
   module.exports.config.apps[app] = {
     name: manifest.name,
     displayName: manifest.displayName,
