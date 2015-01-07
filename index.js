@@ -10,9 +10,7 @@ module.exports.config = null;
 module.exports.configPath = null;
 
 
-// Containers could not be considered as app since they require specific
-// startup.
-var addContainer = function (app, manifest) {
+Var addContainer = function (app, manifest) {
   module.exports.config.apps[app] = {
     name: manifest.name,
     displayName: manifest.displayName,
@@ -90,7 +88,7 @@ var uninstallDockerApp = function(app) {
 
 
 module.exports.configureAppServer = function(app, config, routes, callback) {
-  port = config.appPort + 1000;
+  port = 19000;
 
   async.eachSeries(Object.keys(config.apps), function (key, cb) {
     var dockerApp = config.apps[key];
